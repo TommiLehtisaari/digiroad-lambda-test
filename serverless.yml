@@ -37,7 +37,7 @@ functions:
           method: post
 
   queryDataset: # original
-    handler: lambdas/queryDataset.main
+    handler: lambdas/querydataset.main
     events:
       - http:
           path: queryDataset
