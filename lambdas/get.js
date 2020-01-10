@@ -12,7 +12,7 @@ export async function main(event) {
   try {
     const dataset = await getDatasetById(id, include_geojson);
 
-    return success({ dataset });
+    return success({ dataset: dataset[0] });
   } catch (exeption) {
     console.log({ error: 'Error while getting datasets by id from database', details: exeption });
     return failure({ status: false });

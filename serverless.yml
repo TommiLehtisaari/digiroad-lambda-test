@@ -1,18 +1,23 @@
 # NOTE: update this with your service name
 service: digiroad-lambda-assetmatcher
 
-# Create an optimized package for our functions
+# Create an optimized package for functions
 package:
   individually: true
 
 plugins:
-  - serverless-bundle # Package our functions with Webpack
+  - serverless-bundle # Package functions with Webpack
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
 
+custom:
+  # Stage is based on what is passed in when running serverless
+  # commands. Or fallsback to what we have set in the provider section.
+  stage: ${opt:stage, self:provider.stage}
+
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   stage: dev
   region: eu-west-1
   # To load environment variables externally
