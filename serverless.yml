@@ -49,6 +49,10 @@ functions:
           cors: true
           method: get
 
+  update: # original
+    handler: lambdas/upload.js
+    events:
+
   create:
     handler: lambdas/create.main
     events:
@@ -64,6 +68,30 @@ functions:
           path: dataset/{id}
           cors: true
           method: get
+
+  list:
+    handler: lambdas/list.main
+    events:
+      - http:
+          path: dataset
+          cors: true
+          method: get
+
+  put:
+    handler: lambdas/upload.main
+    events:
+      - http:
+          path: dataset/{id}/upload
+          cors: true
+          method: put
+
+  delete:
+    handler: lambdas/delete.main
+    events:
+      - http:
+          path: dataset/{id}
+          cors: true
+          method: delete
 
 resources:
   # API Gateway Errors

@@ -1,6 +1,16 @@
 import { Client } from 'pg';
 import matching_script from './matching_script';
 
+// These are the datacolumns in datasets table (json_data exluded)
+const data_columns = `
+dataset_id, 
+matched_roadlinks, 
+matching_rate, 
+upload_executed, 
+update_finished, 
+status_log
+`;
+
 export async function uploadGeoJSON(geojson) {
   const client = new Client();
   try {
@@ -25,15 +35,6 @@ export async function getDatasetById(id, fetchGeoJSON = false) {
   try {
     client.connect();
 
-    const data_columns = `
-    dataset_id, 
-    matched_roadlinks, 
-    matching_rate, 
-    upload_executed, 
-    update_finished, 
-    status_log
-  `;
-
     const attributes = fetchGeoJSON ? data_columns + ', json_data' : data_columns;
 
     let result;
@@ -53,6 +54,27 @@ export async function getDatasetById(id, fetchGeoJSON = false) {
         [id]
       );
     }
+
+    return result.rows;
+  } catch (exception) {
+    throw new Error('Database connection error');
+  } finally {
+    client.end();
+  }
+}
+
+export async function fetshTenNewestDatasets() {
+  const client = new Client();
+  try {
+    client.connect();
+
+    const result = await client.query(
+      `
+      SELECT ${data_columns} 
+      FROM datasets
+      ORDER BY upload_executed DESC LIMIT 10
+      `
+    );
 
     return result.rows;
   } catch (exception) {
