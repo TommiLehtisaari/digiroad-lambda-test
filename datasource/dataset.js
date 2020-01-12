@@ -1,4 +1,5 @@
-import { Client } from 'pg';
+import pg, { Client } from 'pg';
+delete pg.native;
 import matching_script from './matching_script';
 
 // These are the datacolumns in datasets table (json_data exluded)
