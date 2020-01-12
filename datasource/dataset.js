@@ -1,5 +1,5 @@
-import pg, { Client } from 'pg';
-delete pg.native;
+import pg from 'pg';
+const Client = pg.Client;
 import matching_script from './matching_script';
 
 // These are the datacolumns in datasets table (json_data exluded)
