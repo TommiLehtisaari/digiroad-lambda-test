@@ -6,7 +6,7 @@ export async function main(event) {
 
   try {
     const dataset_id = await uploadGeoJSON(data);
-    executeMatchingScript(dataset_id);
+    await executeMatchingScript(dataset_id);
 
     return success({ dataset_id });
   } catch (exeption) {

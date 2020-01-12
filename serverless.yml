@@ -1,18 +1,23 @@
 # NOTE: update this with your service name
 service: digiroad-lambda-assetmatcher
 
-# Create an optimized package for our functions
+# Create an optimized package for functions
 package:
   individually: true
 
 plugins:
-  - serverless-bundle # Package our functions with Webpack
+  - serverless-bundle # Package functions with Webpack
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
 
+custom:
+  # Stage is based on what is passed in when running serverless
+  # commands. Or fallsback to what we have set in the provider section.
+  stage: ${opt:stage, self:provider.stage}
+
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   stage: dev
   region: eu-west-1
   # To load environment variables externally
@@ -44,6 +49,10 @@ functions:
           cors: true
           method: get
 
+  update: # original
+    handler: lambdas/upload.js
+    events:
+
   create:
     handler: lambdas/create.main
     events:
@@ -59,6 +68,30 @@ functions:
           path: dataset/{id}
           cors: true
           method: get
+
+  list:
+    handler: lambdas/list.main
+    events:
+      - http:
+          path: dataset
+          cors: true
+          method: get
+
+  put:
+    handler: lambdas/upload.main
+    events:
+      - http:
+          path: dataset/{id}/upload
+          cors: true
+          method: put
+
+  delete:
+    handler: lambdas/delete.main
+    events:
+      - http:
+          path: dataset/{id}
+          cors: true
+          method: delete
 
 resources:
   # API Gateway Errors

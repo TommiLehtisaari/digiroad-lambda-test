@@ -4,10 +4,11 @@ export default uuid => {
   const regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
   if (Array.isArray(uuid)) {
+    let isOK = true;
     uuid.forEach(value => {
-      if (!regex.test(value)) return false;
+      if (!regex.test(value)) isOK = false;
     });
-    return true;
+    return isOK;
   } else if (typeof uuid === 'string') {
     return regex.test(uuid);
   } else {
