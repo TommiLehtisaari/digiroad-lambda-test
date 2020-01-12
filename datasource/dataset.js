@@ -1,5 +1,4 @@
-import pg from 'pg';
-const Client = pg.Client;
+const { Client } = require('pg');
 import matching_script from './matching_script';
 
 // These are the datacolumns in datasets table (json_data exluded)
